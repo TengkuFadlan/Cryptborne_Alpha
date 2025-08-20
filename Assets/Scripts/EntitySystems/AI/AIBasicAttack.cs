@@ -22,7 +22,6 @@ public class AIBasicAttack : EntitySystem
         if (closeTimer >= attackHoldTime)
         {
           mainEntity.OnBasicAttackInput?.Invoke();
-          closeTimer = 0f; // Reset timer after attack
         }
       }
       else

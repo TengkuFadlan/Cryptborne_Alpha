@@ -567,7 +567,7 @@ MonoBehaviour:
   MaxHealth: 100
   Dead: 0
   IsInvulnerable: 0
-  Speed: 5
+  Speed: 6
   MovementDirection: {x: 0, y: 0}
   LastMovementDirection: {x: 0, y: 0}
 --- !u!1 &9082097970894367503

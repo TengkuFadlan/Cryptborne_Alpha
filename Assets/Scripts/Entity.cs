@@ -38,4 +38,7 @@ public class Entity : MonoBehaviour
   public Action OnUltimateInput;
   public Action<Vector2> OnMovementInput;
   public Action OnDodgeInput;
+
+  [Header("Entity Touched System")]
+  public Action<Collider2D> OnEntityTouched;
 }

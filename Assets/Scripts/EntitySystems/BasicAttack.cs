@@ -93,6 +93,7 @@ public class BasicAttack : EntitySystem
 
   void OnDisable()
   {
+    StopAllCoroutines();
     mainEntity.OnBasicAttackInput -= BasicAttackInputCallback;
   }
 }
