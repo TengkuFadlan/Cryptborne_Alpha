@@ -124,7 +124,7 @@ MonoBehaviour:
   MaxHealth: 150
   Dead: 0
   IsInvulnerable: 0
-  Speed: 4
+  Speed: 3.5
   MovementDirection: {x: 0, y: 0}
   LastMovementDirection: {x: 0, y: 0}
 --- !u!1 &1841308121007832458
@@ -662,7 +662,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: 533808737, guid: 878297c9c8e84cc4f9fdd09968cd3eae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5180027cf00c9246b2e6f7aedb8d97c, type: 3}
+  m_Name: L1_Floor 3
+  m_EditorClassIdentifier: 
+  map: {fileID: 4353503293670681127, guid: 9ae95733b51cd6740ab1532dd56ee15f, type: 3}
+  waves:
+  - {fileID: 11400000, guid: 633b55f6db540484b8c4a08b2b8eafaa, type: 2}
+  - {fileID: 11400000, guid: 55ef47a161ffb7d44868d78668dc85d2, type: 2}
+  - {fileID: 11400000, guid: b5c4856d5ebd67d44adc627814b54472, type: 2}
+  - {fileID: 11400000, guid: 24c9007c38a7b764b848f00983f1c412, type: 2}
+  - {fileID: 11400000, guid: d29889623a738a549a8dcc4ab2dff2c9, type: 2}

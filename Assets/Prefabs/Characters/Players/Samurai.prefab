@@ -231,6 +231,57 @@ MonoBehaviour:
   - {fileID: 5865929517643780833}
   - {fileID: 2329389298350907381}
   - {fileID: 6323610816508981149}
+  - {fileID: 427327149626944684}
+--- !u!1 &2211046176384718034
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1134764532016629803}
+  - component: {fileID: 427327149626944684}
+  m_Layer: 0
+  m_Name: CameraFocusTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1134764532016629803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2211046176384718034}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8790374091245824785}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &427327149626944684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2211046176384718034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe881a78146a2344dbe7583ee81b0f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothSpeed: 5
+  maxTargetRange: 10
+  zoomSmoothSpeed: 5
+  minZoom: 5
+  maxZoom: 12.5
+  zoomPadding: 2
 --- !u!1 &3959546673948269505
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +404,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_Sprite: {fileID: 533808737, guid: 060e069e4c1697543928567db1063a98, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -443,8 +494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b6615767e77b24ea4172676cae3e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dodgeDuration: 0.5
-  dodgeCooldown: 1
+  dodgeDuration: 1
+  dodgeCooldown: 0.5
 --- !u!1 &9082059716960791942
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +534,7 @@ Transform:
   - {fileID: 8627852088107667464}
   - {fileID: 9217893633960522249}
   - {fileID: 6358328477198116754}
+  - {fileID: 1134764532016629803}
   - {fileID: 7481111681992353416}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

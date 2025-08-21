@@ -58,8 +58,6 @@ public class BasicAttackProjectile : EntitySystem
   {
     isAttacking = true;
 
-    Debug.Log("Attack");
-
     yield return new WaitForSeconds(attackDelay);
 
     Entity target = FindClosestValidTarget();
