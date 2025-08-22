@@ -48,4 +48,12 @@ public class Entity : MonoBehaviour
   [Header("Combat Systems")]
   public Action<Guid, float> OnDamagePercentModifierAdded;
   public Action<Guid> OnDamagePercentModifierRemoved;
+  public Action<float> OnDealtDamage;
+
+  [Header("UI Progress Bars")]
+  public Action<float> OnBasicAttackProgress;
+  public Action<float> OnPrimarySkillProgress;
+  public Action<float> OnSecondarySkillProgress;
+  public Action<float> OnUltimateProgress;
+  public Action<float> OnDodgeProgress;
 }

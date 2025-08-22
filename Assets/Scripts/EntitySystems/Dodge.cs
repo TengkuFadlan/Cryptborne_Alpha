@@ -4,30 +4,42 @@ using UnityEngine.Events;
 
 public class Dodge : EntitySystem
 {
-  public float dodgeDuration = 0.5f; // Set as needed
-  public float dodgeCooldown = 1.0f; // Cooldown after dodge
+  [Header("Dodge Settings")]
+  public float dodgeDuration = 0.5f;
+  public float dodgeCooldown = 1.0f;
 
-  bool isDodging = false;
-  bool isOnCooldown = false;
+  // Use a float to store the timestamp of the last dodge
+  private float lastDodgeTime = 0f;
+
+  void Update()
+  {
+    float totalCooldown = dodgeCooldown + dodgeDuration;
+    float progress = Mathf.Clamp((Time.time - lastDodgeTime) / totalCooldown, 0, 1);
+    mainEntity.OnDodgeProgress?.Invoke(progress);
+  }
 
   public void OnDodgeInputCallback()
   {
-    if (isDodging || isOnCooldown) return;
+    // Check if the cooldown period has passed
+    if (Time.time < lastDodgeTime + dodgeCooldown + dodgeDuration)
+    {
+      return;
+    }
+
     StartCoroutine(DodgeCoroutine());
+    // Update the timestamp of the last dodge
+    lastDodgeTime = Time.time;
   }
 
   IEnumerator DodgeCoroutine()
   {
-    isDodging = true;
-    isOnCooldown = true;
     mainEntity.IsInvulnerable = true;
     mainEntity.OnDodge?.Invoke();
     mainEntity.OnAnimationTrigger?.Invoke("Dodge");
+
     yield return new WaitForSeconds(dodgeDuration);
+
     mainEntity.IsInvulnerable = false;
-    isDodging = false;
-    yield return new WaitForSeconds(dodgeCooldown);
-    isOnCooldown = false;
   }
 
   void OnEnable()

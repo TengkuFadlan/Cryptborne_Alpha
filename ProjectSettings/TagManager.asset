@@ -6,6 +6,11 @@ TagManager:
   tags:
   - Entity
   - PlayerHealthBar
+  - PlayerUltimateBar
+  - PlayerPrimarySkillBar
+  - PlayerSecondarySkillBar
+  - PlayerBasicAttackBar
+  - PlayerDodgeBar
   layers:
   - Default
   - TransparentFX

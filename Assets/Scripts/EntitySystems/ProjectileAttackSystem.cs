@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public abstract class ProjectileAttackSystem : EntitySystem
+public abstract class ProjectileAttackSystem : DamageSystem // Inherit from DamageSystem
 {
   [Header("Projectile Attack Settings")]
   public float attackRange;
@@ -12,12 +14,27 @@ public abstract class ProjectileAttackSystem : EntitySystem
   public GameObject projectilePrefab;
   protected string animationTriggerName;
 
-  protected bool isAttacking = false;
+  // Use a float to store the timestamp of the last attack
+  private float lastAttackTime = 0f;
+
+  void Update()
+  {
+    float totalCooldown = attackDelay + attackCooldown;
+    float progress = Mathf.Clamp((Time.time - lastAttackTime) / totalCooldown, 0, 1);
+    if (animationTriggerName == "BasicAttack")
+      mainEntity.OnBasicAttackProgress?.Invoke(progress);
+    if (animationTriggerName == "PrimarySkill")
+      mainEntity.OnPrimarySkillProgress?.Invoke(progress);
+  }
 
   // This is the common method that handles the attack logic
   protected virtual void PerformAttack()
   {
-    if (isAttacking) return;
+    // Check if enough time has passed since the last attack
+    if (Time.time < lastAttackTime + attackCooldown)
+    {
+      return;
+    }
 
     Entity target = FindClosestValidTarget();
 
@@ -28,6 +45,9 @@ public abstract class ProjectileAttackSystem : EntitySystem
       Vector2 direction = (targetPos - origin).normalized;
 
       mainEntity.OnFocusAnimationTrigger?.Invoke(animationTriggerName, direction);
+
+      // Update the timestamp of the last attack
+      lastAttackTime = Time.time;
 
       StartCoroutine(AttackCoroutine());
     }
@@ -59,8 +79,6 @@ public abstract class ProjectileAttackSystem : EntitySystem
 
   protected IEnumerator AttackCoroutine()
   {
-    isAttacking = true;
-
     yield return new WaitForSeconds(attackDelay);
 
     Entity target = FindClosestValidTarget();
@@ -70,6 +88,12 @@ public abstract class ProjectileAttackSystem : EntitySystem
       GameObject projectileObject = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
       Destroy(projectileObject, projectileLifetime);
       Entity projectileEntity = projectileObject.GetComponent<Entity>();
+
+      // Pass the damage modifiers to the projectile's Entity individually
+      foreach (var modifier in damageModifiers)
+      {
+        projectileEntity.OnDamagePercentModifierAdded?.Invoke(modifier.Key, modifier.Value);
+      }
 
       Vector2 targetPos = target.transform.position;
 
@@ -83,29 +107,28 @@ public abstract class ProjectileAttackSystem : EntitySystem
       // Rotate the projectile to face the target
       projectileObject.transform.rotation = Quaternion.Euler(0, 0, angle);
     }
-
-    yield return new WaitForSeconds(attackCooldown);
-
-    isAttacking = false;
   }
 
   protected virtual void HurtCallback(float _)
   {
     StopAllCoroutines();
-    isAttacking = false;
+    // Force the attack to cooldown by setting the last attack time to a future time
+    lastAttackTime = Time.time + attackCooldown;
   }
 
   protected abstract void SubscribeInputEvents();
   protected abstract void UnsubscribeInputEvents();
 
-  protected virtual void OnEnable()
+  protected override void OnEnable()
   {
+    base.OnEnable(); // Call the base class OnEnable
     SubscribeInputEvents();
     mainEntity.OnHealthDamaged += HurtCallback;
   }
 
-  protected virtual void OnDisable()
+  protected override void OnDisable()
   {
+    base.OnDisable(); // Call the base class OnDisable
     StopAllCoroutines();
     UnsubscribeInputEvents();
     mainEntity.OnHealthDamaged -= HurtCallback;

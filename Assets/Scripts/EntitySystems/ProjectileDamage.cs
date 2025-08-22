@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class ProjectileDamage : EntitySystem
+public class ProjectileDamage : DamageSystem // Inherit from DamageSystem
 {
   [Header("Projectile Settings")]
-  public float damageValue = 50f;
+  public float baseDamage = 50f;
 
   void OnEntityTouchedCallback(Collider2D other)
   {
@@ -11,8 +11,8 @@ public class ProjectileDamage : EntitySystem
     {
       if (TeamManager.IsOpponent(mainEntity, hitEntity))
       {
-        // Apply damage to the collided entity
-        hitEntity.OnRecieveDamage?.Invoke(damageValue);
+        // Apply modified damage
+        ApplyDamage(hitEntity, baseDamage);
 
         // Kill self after the damage is dealt
         mainEntity.IsInvulnerable = false;
@@ -21,12 +21,15 @@ public class ProjectileDamage : EntitySystem
     }
   }
 
-  void OnEnable()
+  protected override void OnEnable()
   {
+    base.OnEnable(); // Call the base class OnEnable to handle modifier subscriptions
     mainEntity.OnEntityTouched += OnEntityTouchedCallback;
   }
-  void OnDisable()
+
+  protected override void OnDisable()
   {
+    base.OnDisable(); // Call the base class OnDisable to handle modifier unsubscriptions
     mainEntity.OnEntityTouched -= OnEntityTouchedCallback;
   }
 }

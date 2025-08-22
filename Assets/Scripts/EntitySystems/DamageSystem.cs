@@ -30,10 +30,17 @@ public abstract class DamageSystem : EntitySystem
     return baseDamage * totalModifier;
   }
 
+  protected void ApplyDamage(Entity target, float baseDamage)
+  {
+    float modifiedDamage = CalculateModifiedDamage(baseDamage);
+    target.OnRecieveDamage?.Invoke(modifiedDamage);
+    mainEntity.OnDealtDamage?.Invoke(modifiedDamage); // Invoke the new action
+  }
+
   protected virtual void OnEnable()
   {
-    mainEntity.OnDamagePercentModifierAdded -= AddDamageModifierCallback;
-    mainEntity.OnDamagePercentModifierRemoved -= RemoveDamageModifierCallback;
+    mainEntity.OnDamagePercentModifierAdded += AddDamageModifierCallback;
+    mainEntity.OnDamagePercentModifierRemoved += RemoveDamageModifierCallback;
   }
 
   protected virtual void OnDisable()

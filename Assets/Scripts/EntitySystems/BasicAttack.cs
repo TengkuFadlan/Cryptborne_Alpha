@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class BasicAttack : EntitySystem
+public class BasicAttack : DamageSystem // Inherits from DamageSystem
 {
   [Header("Attack Settings")]
   public float[] attackDamageIndex;
@@ -14,7 +14,25 @@ public class BasicAttack : EntitySystem
   int attackIndex;
 
   Entity currentTarget;
-  bool isAttacking = false;
+  private float lastAttackTime = 0f;
+  private float totalCooldown;
+
+  protected override void Awake()
+  {
+    base.Awake();
+    float totalAttackDuration = 0f;
+    foreach (float attackTime in attackTimeIndex)
+    {
+      totalAttackDuration += attackTime;
+    }
+    totalCooldown = totalAttackDuration + attackEndDuration;
+  }
+
+  void Update()
+  {
+    float progress = Mathf.Clamp((Time.time - lastAttackTime) / totalCooldown, 0, 1);
+    mainEntity.OnBasicAttackProgress?.Invoke(progress);
+  }
 
   Entity FindClosestValidTarget()
   {
@@ -24,14 +42,14 @@ public class BasicAttack : EntitySystem
 
     foreach (GameObject entityGameObject in entityGameObjects)
     {
-      if (entityGameObject == mainEntity.gameObject) continue; // Skip self
+      if (entityGameObject == mainEntity.gameObject) continue;
 
       if (!entityGameObject.TryGetComponent<Entity>(out var entity)) continue;
       if (entity.Dead) continue;
       if (!TeamManager.IsOpponent(mainEntity, entity)) continue;
 
       float dist = Vector2.Distance(transform.position, entityGameObject.transform.position);
-      if (dist < closestDist && dist <= attackRangeIndex[0]) // Use first range for targeting
+      if (dist < closestDist && dist <= attackRangeIndex[0])
       {
         closestDist = dist;
         closestEntity = entity;
@@ -42,7 +60,7 @@ public class BasicAttack : EntitySystem
 
   void BasicAttackInputCallback()
   {
-    if (isAttacking) return; // Prevent overlapping attacks
+    if (Time.time < lastAttackTime + totalCooldown) return;
 
     currentTarget = FindClosestValidTarget();
 
@@ -60,12 +78,11 @@ public class BasicAttack : EntitySystem
     }
 
     StartCoroutine(AttackSequenceCoroutine());
+    lastAttackTime = Time.time;
   }
 
   IEnumerator AttackSequenceCoroutine()
   {
-    isAttacking = true;
-
     for (attackIndex = 0; attackIndex < attackDamageIndex.Length; attackIndex++)
     {
       float delay = attackTimeIndex[attackIndex];
@@ -80,7 +97,9 @@ public class BasicAttack : EntitySystem
         {
           Vector2 direction = (currentTarget.transform.position - mainEntity.transform.position).normalized;
           currentTarget.OnKnockback?.Invoke(direction * knockbackForce, knockbackDuration);
-          currentTarget.OnRecieveDamage?.Invoke(attackDamageIndex[attackIndex]);
+
+          // Apply modified damage
+          ApplyDamage(currentTarget, attackDamageIndex[attackIndex]);
         }
       }
     }
@@ -88,26 +107,25 @@ public class BasicAttack : EntitySystem
     yield return new WaitForSeconds(attackEndDuration);
 
     attackIndex = 0;
-    isAttacking = false;
   }
 
   void HurtCallback(float _)
   {
     StopAllCoroutines();
     attackIndex = 0;
-    isAttacking = false;
   }
 
-  void OnEnable()
+  protected override void OnEnable()
   {
+    base.OnEnable();
     mainEntity.OnBasicAttackInput += BasicAttackInputCallback;
     mainEntity.OnHealthDamaged += HurtCallback;
     attackIndex = 0;
-    isAttacking = false;
   }
 
-  void OnDisable()
+  protected override void OnDisable()
   {
+    base.OnDisable();
     StopAllCoroutines();
     mainEntity.OnBasicAttackInput -= BasicAttackInputCallback;
     mainEntity.OnHealthDamaged -= HurtCallback;
