@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 62c15e6735eed0143bc76a4de781ce73
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 167275
+  packageName: Rogue Fantasy Catacombs
+  packageVersion: 1.0
+  assetPath: Assets/RF Castle/Animated/torch_ssheet_0.controller
+  uploadId: 364225

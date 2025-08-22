@@ -45,7 +45,7 @@ public class CameraFocusTarget : EntitySystem
       if (entityGameObject == mainEntity.gameObject) continue;
 
       if (!entityGameObject.TryGetComponent<Entity>(out var entity)) continue;
-      if (entity.Dead) continue;
+      if (entity.Dead || entity.Projectile) continue;
       if (!TeamManager.IsOpponent(mainEntity, entity)) continue;
 
       float dist = Vector2.Distance(transform.position, entityGameObject.transform.position);

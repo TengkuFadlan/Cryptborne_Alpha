@@ -9,6 +9,8 @@ public class BasicAttack : EntitySystem
   public float[] attackTimeIndex;
   public float[] attackRangeIndex;
   public float attackEndDuration;
+  public float knockbackForce;
+  public float knockbackDuration;
   int attackIndex;
 
   Entity currentTarget;
@@ -25,6 +27,7 @@ public class BasicAttack : EntitySystem
       if (entityGameObject == mainEntity.gameObject) continue; // Skip self
 
       if (!entityGameObject.TryGetComponent<Entity>(out var entity)) continue;
+      if (entity.Dead) continue;
       if (!TeamManager.IsOpponent(mainEntity, entity)) continue;
 
       float dist = Vector2.Distance(transform.position, entityGameObject.transform.position);
@@ -75,6 +78,8 @@ public class BasicAttack : EntitySystem
         float dist = Vector2.Distance(transform.position, currentTarget.transform.position);
         if (dist <= attackRangeIndex[attackIndex])
         {
+          Vector2 direction = (currentTarget.transform.position - mainEntity.transform.position).normalized;
+          currentTarget.OnKnockback?.Invoke(direction * knockbackForce, knockbackDuration);
           currentTarget.OnRecieveDamage?.Invoke(attackDamageIndex[attackIndex]);
         }
       }
@@ -82,18 +87,29 @@ public class BasicAttack : EntitySystem
 
     yield return new WaitForSeconds(attackEndDuration);
 
-    attackIndex = 0; // Reset for next attack input
+    attackIndex = 0;
+    isAttacking = false;
+  }
+
+  void HurtCallback(float _)
+  {
+    StopAllCoroutines();
+    attackIndex = 0;
     isAttacking = false;
   }
 
   void OnEnable()
   {
     mainEntity.OnBasicAttackInput += BasicAttackInputCallback;
+    mainEntity.OnHealthDamaged += HurtCallback;
+    attackIndex = 0;
+    isAttacking = false;
   }
 
   void OnDisable()
   {
     StopAllCoroutines();
     mainEntity.OnBasicAttackInput -= BasicAttackInputCallback;
+    mainEntity.OnHealthDamaged -= HurtCallback;
   }
 }

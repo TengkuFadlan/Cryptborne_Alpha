@@ -316,6 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39095219cb6a106488a22d2aa3c4d9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Projectile: 1
   team: 1
   CurrentHealth: 10
   MaxHealth: 10

@@ -1,8 +1,18 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro; // Make sure to add this namespace!
+using System;
 
 public class FloorManager : MonoBehaviour
 {
+  // These are the new variables for the UI elements.
+  [Header("UI References")]
+  public TextMeshProUGUI floorText;
+  public TextMeshProUGUI timerText;
+  public TextMeshProUGUI floorClearTimeText;
+  public TextMeshProUGUI floorClearedText;
+  public Animator floorClearedAnimator;
+
   public LevelSO LevelData;
 
   List<Entity> activeEnemyEntities = new();
@@ -10,6 +20,33 @@ public class FloorManager : MonoBehaviour
   GameObject currentMap;
   int currentFloor = 0;
   int currentWave = 0;
+
+  // These are the new variables for the timer.
+  float timer = 0f;
+  bool isTimerRunning = false;
+  float floorTimer = 0f;
+
+  // This method is new and will be called every frame to update the timer.
+  void Update()
+  {
+    if (isTimerRunning)
+    {
+      floorTimer += Time.deltaTime;
+      timer += Time.deltaTime;
+      UpdateTimerText();
+    }
+  }
+
+  // This new method updates the timer display.
+  void UpdateTimerText()
+  {
+    TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
+    timerText.text = string.Format("{0}:{1:00}:{2:00}.{3:00}",
+        timeSpan.Hours,
+        timeSpan.Minutes,
+        timeSpan.Seconds,
+        timeSpan.Milliseconds / 10);
+  }
 
   void OnEnemyDeath(Entity enemy)
   {
@@ -35,7 +72,7 @@ public class FloorManager : MonoBehaviour
     if (currentWave < floorData.waves.Count)
     {
       Debug.Log("End Wave, Starting next wave");
-      Invoke("StartWave", 3f);
+      Invoke("StartWave", 2f);
     }
     else
     {
@@ -46,12 +83,24 @@ public class FloorManager : MonoBehaviour
 
   void EndFloor()
   {
+    // Pause the timer when the floor ends.
+    isTimerRunning = false;
+
+    floorClearedText.text = "Floor " + (currentFloor + 1) + " Cleared";
+    TimeSpan timeSpan = TimeSpan.FromSeconds(floorTimer);
+    floorClearTimeText.text = "+" + string.Format("{0}:{1:00}:{2:00}.{3:00}",
+        timeSpan.Hours,
+        timeSpan.Minutes,
+        timeSpan.Seconds,
+        timeSpan.Milliseconds / 10);
+    floorClearedAnimator.SetBool("Open", true);
+
     currentFloor++;
 
     if (currentFloor < LevelData.floors.Count)
     {
       Debug.Log("End Floor, Starting next floor");
-      Invoke("StartFloor", 3f);
+      Invoke("StartFloor", 5f);
     }
     else
     {
@@ -63,6 +112,9 @@ public class FloorManager : MonoBehaviour
   void EndGame()
   {
     Debug.Log("End Game reached");
+    // Pause the timer when the game ends.
+    isTimerRunning = false;
+
     if (playerGameObject != null && playerGameObject.TryGetComponent<Entity>(out var playerEntity))
     {
       playerEntity.OnDeath -= FailedGame;
@@ -73,6 +125,9 @@ public class FloorManager : MonoBehaviour
   {
     Debug.Log("Game over!");
     CancelInvoke();
+    // Pause the timer when the game fails.
+    isTimerRunning = false;
+
     if (playerGameObject != null && playerGameObject.TryGetComponent<Entity>(out var playerEntity))
     {
       playerEntity.OnDeath -= FailedGame;
@@ -107,6 +162,14 @@ public class FloorManager : MonoBehaviour
     Transform mapPlayerSpawn = currentMap.transform.Find("PlayerSpawn").transform;
     playerGameObject.transform.position = mapPlayerSpawn.transform.position;
 
+    floorTimer = 0f;
+    floorClearedAnimator.SetBool("Open", false);
+
+    // Start the timer when the floor begins.
+    isTimerRunning = true;
+
+    floorText.text = "Floor " + (currentFloor + 1);
+
     Debug.Log("Starting Floor " + currentFloor);
     currentWave = 0;
     StartWave();
@@ -120,7 +183,10 @@ public class FloorManager : MonoBehaviour
     {
       playerEntity.OnDeath += FailedGame;
     }
+
     currentFloor = 0;
+    timer = 0f; // Reset the timer at the start of the game.
+
     StartFloor();
   }
 

@@ -119,9 +119,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39095219cb6a106488a22d2aa3c4d9cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Projectile: 0
   team: 1
-  CurrentHealth: 150
-  MaxHealth: 150
+  CurrentHealth: 100
+  MaxHealth: 100
   Dead: 0
   IsInvulnerable: 0
   Speed: 3.5
@@ -496,6 +497,8 @@ MonoBehaviour:
   attackRangeIndex:
   - 2.3
   attackEndDuration: 0.6
+  knockbackForce: 15
+  knockbackDuration: 0.1
 --- !u!1 &6543917266807924296
 GameObject:
   m_ObjectHideFlags: 0

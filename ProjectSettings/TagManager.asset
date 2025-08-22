@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Enemy
   - Entity
+  - PlayerHealthBar
   layers:
   - Default
   - TransparentFX
