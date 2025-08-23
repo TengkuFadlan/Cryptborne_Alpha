@@ -15,3 +15,5 @@ MonoBehaviour:
   map: {fileID: 3287509826155442371, guid: 0cf79fbc92072644f9f3f22a7992c995, type: 3}
   waves:
   - {fileID: 11400000, guid: c00429527d5d632458b19bc1576b794c, type: 2}
+  floorTip: Press Left Mouse Button to perform a basic attack and damage enemies.
+  floorImageTip: {fileID: 2022066493, guid: 05e0567213a58c840a3ea79a4409bdfd, type: 3}

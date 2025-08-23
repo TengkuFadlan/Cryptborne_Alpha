@@ -3,6 +3,8 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class FloorManager : MonoBehaviour
 {
@@ -12,6 +14,11 @@ public class FloorManager : MonoBehaviour
   public TextMeshProUGUI timerText;
   public TextMeshProUGUI floorClearTimeText;
   public TextMeshProUGUI floorClearedText;
+
+  public UnityEngine.UI.Image tipSprite;
+  public TextMeshProUGUI tipText;
+  public GameObject tipFrame;
+
   public Animator floorClearedAnimator;
   public GameObject cryptClearedFrame;
   public GameObject gameOverFrame;
@@ -215,6 +222,9 @@ public class FloorManager : MonoBehaviour
     Debug.Log("Starting Floor " + currentFloor);
     currentWave = 0;
 
+    if (LevelData.floors[currentFloor].floorTip != "")
+      TipPauseGame(LevelData.floors[currentFloor]);
+
     Invoke("StartWave", 1f);
   }
 
@@ -251,6 +261,16 @@ public class FloorManager : MonoBehaviour
     Time.timeScale = 1f;
     isTimerRunning = true;
     pauseFrame.SetActive(false);
+    tipFrame.SetActive(false);
+  }
+
+  public void TipPauseGame(FloorSO floorInfo)
+  {
+    Time.timeScale = 0f;
+    isTimerRunning = false;
+    tipText.text = floorInfo.floorTip;
+    tipSprite.sprite = floorInfo.floorImageTip;
+    tipFrame.SetActive(true);
   }
 
   public void RestartGame()

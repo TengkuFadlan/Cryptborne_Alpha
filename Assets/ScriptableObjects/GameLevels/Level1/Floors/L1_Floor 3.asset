@@ -15,3 +15,6 @@ MonoBehaviour:
   map: {fileID: 3287509826155442371, guid: 0cf79fbc92072644f9f3f22a7992c995, type: 3}
   waves:
   - {fileID: 11400000, guid: 5ff121f0a3a84ca48a157dcb443ca872, type: 2}
+  floorTip: Press Q when fully charged to unleash your Ultimate. This grants you
+    a damage bonus and regeneration. Press Q again to end the effect.
+  floorImageTip: {fileID: 1533262026, guid: 05e0567213a58c840a3ea79a4409bdfd, type: 3}

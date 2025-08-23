@@ -15,3 +15,6 @@ MonoBehaviour:
   map: {fileID: 3287509826155442371, guid: 0cf79fbc92072644f9f3f22a7992c995, type: 3}
   waves:
   - {fileID: 11400000, guid: b2c536c547db48042aeaadd419416aac, type: 2}
+  floorTip: You can dodge attacks by pressing Right Mouse Button, giving you temporary
+    invincibility.
+  floorImageTip: {fileID: -1341189835, guid: 05e0567213a58c840a3ea79a4409bdfd, type: 3}
