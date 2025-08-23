@@ -43,6 +43,7 @@ public class UltimateHealDamageBoost : EntitySystem
     else if (currentCharge >= chargeRequired)
     {
       ultimateCoroutine = StartCoroutine(UltimateSequenceCoroutine());
+      mainEntity.OnUltimateCast?.Invoke();
     }
   }
 

@@ -29,6 +29,7 @@ public class SecondarySkillSelfAoE : DamageSystem
     mainEntity.OnAnimationTrigger?.Invoke("SecondarySkill");
     StartCoroutine(AttackSequenceCoroutine());
     lastAttackTime = Time.time;
+    mainEntity.OnSecondarySkillCast?.Invoke();
   }
 
   IEnumerator AttackSequenceCoroutine()
@@ -57,8 +58,7 @@ public class SecondarySkillSelfAoE : DamageSystem
 
   void HurtCallback(float _)
   {
-    // No change needed here, as the cooldown is managed by lastAttackTime.
-    lastAttackTime = Time.time;
+    StopAllCoroutines();
   }
 
   protected override void OnEnable()

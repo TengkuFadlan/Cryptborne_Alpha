@@ -31,7 +31,7 @@ public abstract class ProjectileAttackSystem : DamageSystem // Inherit from Dama
   protected virtual void PerformAttack()
   {
     // Check if enough time has passed since the last attack
-    if (Time.time < lastAttackTime + attackCooldown)
+    if (Time.time < lastAttackTime + attackCooldown + attackDelay)
     {
       return;
     }
@@ -50,6 +50,11 @@ public abstract class ProjectileAttackSystem : DamageSystem // Inherit from Dama
       lastAttackTime = Time.time;
 
       StartCoroutine(AttackCoroutine());
+
+      if (animationTriggerName == "BasicAttack")
+        mainEntity.OnBasicAttackCast?.Invoke();
+      if (animationTriggerName == "PrimarySkill")
+        mainEntity.OnPrimarySkillCast?.Invoke();
     }
   }
 
@@ -112,8 +117,6 @@ public abstract class ProjectileAttackSystem : DamageSystem // Inherit from Dama
   protected virtual void HurtCallback(float _)
   {
     StopAllCoroutines();
-    // Force the attack to cooldown by setting the last attack time to a future time
-    lastAttackTime = Time.time + attackCooldown;
   }
 
   protected abstract void SubscribeInputEvents();

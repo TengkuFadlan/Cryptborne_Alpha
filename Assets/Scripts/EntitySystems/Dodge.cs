@@ -29,6 +29,7 @@ public class Dodge : EntitySystem
     StartCoroutine(DodgeCoroutine());
     // Update the timestamp of the last dodge
     lastDodgeTime = Time.time;
+    mainEntity.OnDodgeCast?.Invoke();
   }
 
   IEnumerator DodgeCoroutine()

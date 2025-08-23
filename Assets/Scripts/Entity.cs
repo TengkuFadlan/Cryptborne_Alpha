@@ -34,6 +34,13 @@ public class Entity : MonoBehaviour
   public Action<string> OnAnimationTrigger;
   public Action<string, Vector2> OnFocusAnimationTrigger;
 
+  [Header("Action Systems")]
+  public Action OnBasicAttackCast;
+  public Action OnPrimarySkillCast;
+  public Action OnSecondarySkillCast;
+  public Action OnUltimateCast;
+  public Action OnDodgeCast;
+
   [Header("Input Systems")]
   public Action OnBasicAttackInput;
   public Action OnPrimarySkillInput;

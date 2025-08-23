@@ -102,6 +102,8 @@ public class BasicAttack : DamageSystem // Inherits from DamageSystem
           ApplyDamage(currentTarget, attackDamageIndex[attackIndex]);
         }
       }
+
+      mainEntity.OnBasicAttackCast?.Invoke();
     }
 
     yield return new WaitForSeconds(attackEndDuration);
