@@ -144,6 +144,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EscapeMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""0e4788c1-5a7d-4a56-b8c8-006f9d736ced"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -333,6 +342,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Ultimate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""62157928-5de6-4d06-b062-4cf1145c98be"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EscapeMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -359,6 +379,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Keyboard_PrimarySkill = m_Keyboard.FindAction("PrimarySkill", throwIfNotFound: true);
         m_Keyboard_SecondarySkill = m_Keyboard.FindAction("SecondarySkill", throwIfNotFound: true);
         m_Keyboard_Ultimate = m_Keyboard.FindAction("Ultimate", throwIfNotFound: true);
+        m_Keyboard_EscapeMenu = m_Keyboard.FindAction("EscapeMenu", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -445,6 +466,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Keyboard_PrimarySkill;
     private readonly InputAction m_Keyboard_SecondarySkill;
     private readonly InputAction m_Keyboard_Ultimate;
+    private readonly InputAction m_Keyboard_EscapeMenu;
     /// <summary>
     /// Provides access to input actions defined in input action map "Keyboard".
     /// </summary>
@@ -480,6 +502,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Keyboard/Ultimate".
         /// </summary>
         public InputAction @Ultimate => m_Wrapper.m_Keyboard_Ultimate;
+        /// <summary>
+        /// Provides access to the underlying input action "Keyboard/EscapeMenu".
+        /// </summary>
+        public InputAction @EscapeMenu => m_Wrapper.m_Keyboard_EscapeMenu;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -524,6 +550,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Ultimate.started += instance.OnUltimate;
             @Ultimate.performed += instance.OnUltimate;
             @Ultimate.canceled += instance.OnUltimate;
+            @EscapeMenu.started += instance.OnEscapeMenu;
+            @EscapeMenu.performed += instance.OnEscapeMenu;
+            @EscapeMenu.canceled += instance.OnEscapeMenu;
         }
 
         /// <summary>
@@ -553,6 +582,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Ultimate.started -= instance.OnUltimate;
             @Ultimate.performed -= instance.OnUltimate;
             @Ultimate.canceled -= instance.OnUltimate;
+            @EscapeMenu.started -= instance.OnEscapeMenu;
+            @EscapeMenu.performed -= instance.OnEscapeMenu;
+            @EscapeMenu.canceled -= instance.OnEscapeMenu;
         }
 
         /// <summary>
@@ -648,5 +680,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUltimate(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "EscapeMenu" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnEscapeMenu(InputAction.CallbackContext context);
     }
 }

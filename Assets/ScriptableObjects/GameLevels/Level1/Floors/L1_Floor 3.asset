@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5180027cf00c9246b2e6f7aedb8d97c, type: 3}
   m_Name: L1_Floor 3
   m_EditorClassIdentifier: 
-  map: {fileID: 6108899538934193078, guid: 104db444750fba748bf6735f8097ee8a, type: 3}
+  map: {fileID: 3287509826155442371, guid: 0cf79fbc92072644f9f3f22a7992c995, type: 3}
   waves:
-  - {fileID: 11400000, guid: 633b55f6db540484b8c4a08b2b8eafaa, type: 2}
-  - {fileID: 11400000, guid: 55ef47a161ffb7d44868d78668dc85d2, type: 2}
-  - {fileID: 11400000, guid: b5c4856d5ebd67d44adc627814b54472, type: 2}
-  - {fileID: 11400000, guid: 24c9007c38a7b764b848f00983f1c412, type: 2}
-  - {fileID: 11400000, guid: d29889623a738a549a8dcc4ab2dff2c9, type: 2}
+  - {fileID: 11400000, guid: 5ff121f0a3a84ca48a157dcb443ca872, type: 2}

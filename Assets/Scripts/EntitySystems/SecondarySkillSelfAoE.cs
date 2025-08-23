@@ -13,7 +13,7 @@ public class SecondarySkillSelfAoE : DamageSystem
   public float knockbackForce;
   public float knockbackDuration;
 
-  private float lastAttackTime = 0f;
+  private float lastAttackTime = -Mathf.Infinity;
 
   void Update()
   {

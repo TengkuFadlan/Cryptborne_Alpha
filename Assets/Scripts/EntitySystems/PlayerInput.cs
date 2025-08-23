@@ -57,4 +57,9 @@ public class PlayerInput : EntitySystem, PlayerInputActions.IKeyboardActions
     if (context.performed)
       mainEntity.OnUltimateInput?.Invoke();
   }
+
+  public void OnEscapeMenu(UnityEngine.InputSystem.InputAction.CallbackContext context)
+  {
+
+  }
 }

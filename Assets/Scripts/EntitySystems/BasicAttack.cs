@@ -14,7 +14,7 @@ public class BasicAttack : DamageSystem // Inherits from DamageSystem
   int attackIndex;
 
   Entity currentTarget;
-  private float lastAttackTime = 0f;
+  private float lastAttackTime = -Mathf.Infinity;
   private float totalCooldown;
 
   protected override void Awake()
@@ -95,8 +95,11 @@ public class BasicAttack : DamageSystem // Inherits from DamageSystem
         float dist = Vector2.Distance(transform.position, currentTarget.transform.position);
         if (dist <= attackRangeIndex[attackIndex])
         {
-          Vector2 direction = (currentTarget.transform.position - mainEntity.transform.position).normalized;
-          currentTarget.OnKnockback?.Invoke(direction * knockbackForce, knockbackDuration);
+          if (!currentTarget.IsInvulnerable)
+          {
+            Vector2 direction = (currentTarget.transform.position - mainEntity.transform.position).normalized;
+            currentTarget.OnKnockback?.Invoke(direction * knockbackForce, knockbackDuration);
+          }
 
           // Apply modified damage
           ApplyDamage(currentTarget, attackDamageIndex[attackIndex]);

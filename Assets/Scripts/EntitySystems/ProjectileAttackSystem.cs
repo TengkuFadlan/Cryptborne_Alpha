@@ -15,7 +15,7 @@ public abstract class ProjectileAttackSystem : DamageSystem // Inherit from Dama
   protected string animationTriggerName;
 
   // Use a float to store the timestamp of the last attack
-  private float lastAttackTime = 0f;
+  private float lastAttackTime = -Mathf.Infinity;
 
   void Update()
   {

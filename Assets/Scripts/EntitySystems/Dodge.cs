@@ -9,7 +9,7 @@ public class Dodge : EntitySystem
   public float dodgeCooldown = 1.0f;
 
   // Use a float to store the timestamp of the last dodge
-  private float lastDodgeTime = 0f;
+  private float lastDodgeTime = -Mathf.Infinity;
 
   void Update()
   {

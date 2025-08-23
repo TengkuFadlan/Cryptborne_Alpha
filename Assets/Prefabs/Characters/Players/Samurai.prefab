@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 30
-  attackRange: 4
+  attackRange: 3.5
   attackDelay: 0.5
   attackCooldown: 5
   knockbackForce: 15
@@ -641,7 +641,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargeRequired: 250
   ultDuration: 10
-  healAmountPerSecond: 3
+  healAmountPerSecond: 5
   damageBoost: 2
   ultimateBarTagName: PlayerUltimateBar
 --- !u!1 &6206337179097531137
@@ -932,8 +932,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0b6615767e77b24ea4172676cae3e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dodgeDuration: 1
-  dodgeCooldown: 0.5
+  dodgeDuration: 0.5
+  dodgeCooldown: 0.4
 --- !u!1 &9082059716960791942
 GameObject:
   m_ObjectHideFlags: 0

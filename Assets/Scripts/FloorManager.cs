@@ -1,17 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro; // Make sure to add this namespace!
+using TMPro;
 using System;
+using UnityEngine.SceneManagement;
 
 public class FloorManager : MonoBehaviour
 {
-  // These are the new variables for the UI elements.
+  public float bonusHealthPerFloor = 10f;
   [Header("UI References")]
   public TextMeshProUGUI floorText;
   public TextMeshProUGUI timerText;
   public TextMeshProUGUI floorClearTimeText;
   public TextMeshProUGUI floorClearedText;
   public Animator floorClearedAnimator;
+  public GameObject cryptClearedFrame;
+  public GameObject gameOverFrame;
+  public GameObject pauseFrame;
 
   public LevelSO LevelData;
 
@@ -21,12 +25,47 @@ public class FloorManager : MonoBehaviour
   int currentFloor = 0;
   int currentWave = 0;
 
-  // These are the new variables for the timer.
   float timer = 0f;
   bool isTimerRunning = false;
   float floorTimer = 0f;
 
-  // This method is new and will be called every frame to update the timer.
+  // New variable for the Input System actions.
+  private PlayerInputActions playerInputActions;
+
+  void Awake()
+  {
+    // Initialize the input actions asset.
+    playerInputActions = new PlayerInputActions();
+
+    // Subscribe to the "EscapeMenu" performed event.
+    playerInputActions.Keyboard.EscapeMenu.performed += OnEscapeMenuPerformed;
+  }
+
+  void OnEnable()
+  {
+    // Enable the input actions when the script is enabled.
+    playerInputActions.Enable();
+  }
+
+  void OnDisable()
+  {
+    // Disable the input actions when the script is disabled.
+    playerInputActions.Disable();
+  }
+
+  // The callback method for the EscapeMenu action.
+  private void OnEscapeMenuPerformed(UnityEngine.InputSystem.InputAction.CallbackContext context)
+  {
+    if (pauseFrame.activeSelf)
+    {
+      ContinueGame();
+    }
+    else
+    {
+      PauseGame();
+    }
+  }
+
   void Update()
   {
     if (isTimerRunning)
@@ -37,7 +76,6 @@ public class FloorManager : MonoBehaviour
     }
   }
 
-  // This new method updates the timer display.
   void UpdateTimerText()
   {
     TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
@@ -83,7 +121,6 @@ public class FloorManager : MonoBehaviour
 
   void EndFloor()
   {
-    // Pause the timer when the floor ends.
     isTimerRunning = false;
 
     floorClearedText.text = "Floor " + (currentFloor + 1) + " Cleared";
@@ -95,12 +132,17 @@ public class FloorManager : MonoBehaviour
         timeSpan.Milliseconds / 10);
     floorClearedAnimator.SetBool("Open", true);
 
+    if (playerGameObject.TryGetComponent<Entity>(out var playerEntity))
+    {
+      playerEntity.OnRecieveHeal?.Invoke(bonusHealthPerFloor);
+    }
+
     currentFloor++;
 
     if (currentFloor < LevelData.floors.Count)
     {
       Debug.Log("End Floor, Starting next floor");
-      Invoke("StartFloor", 5f);
+      Invoke("StartFloor", 4f);
     }
     else
     {
@@ -112,26 +154,28 @@ public class FloorManager : MonoBehaviour
   void EndGame()
   {
     Debug.Log("End Game reached");
-    // Pause the timer when the game ends.
     isTimerRunning = false;
 
     if (playerGameObject != null && playerGameObject.TryGetComponent<Entity>(out var playerEntity))
     {
       playerEntity.OnDeath -= FailedGame;
     }
+
+    cryptClearedFrame.SetActive(true);
   }
 
   void FailedGame()
   {
     Debug.Log("Game over!");
     CancelInvoke();
-    // Pause the timer when the game fails.
     isTimerRunning = false;
 
     if (playerGameObject != null && playerGameObject.TryGetComponent<Entity>(out var playerEntity))
     {
       playerEntity.OnDeath -= FailedGame;
     }
+
+    gameOverFrame.SetActive(true);
   }
 
   void StartWave()
@@ -144,7 +188,6 @@ public class FloorManager : MonoBehaviour
       Transform mapEnemySpawn = currentMap.transform.Find("EnemySpawn").transform;
       GameObject newEnemy = Instantiate(enemySpawn.enemyPrefab, mapEnemySpawn.position + (Vector3)enemySpawn.spawnPosition, Quaternion.identity);
 
-      // Listen for the enemy's death event
       if (newEnemy.TryGetComponent<Entity>(out var enemyEntity))
       {
         activeEnemyEntities.Add(enemyEntity);
@@ -165,14 +208,14 @@ public class FloorManager : MonoBehaviour
     floorTimer = 0f;
     floorClearedAnimator.SetBool("Open", false);
 
-    // Start the timer when the floor begins.
     isTimerRunning = true;
 
     floorText.text = "Floor " + (currentFloor + 1);
 
     Debug.Log("Starting Floor " + currentFloor);
     currentWave = 0;
-    StartWave();
+
+    Invoke("StartWave", 1f);
   }
 
   void StartGame()
@@ -185,7 +228,7 @@ public class FloorManager : MonoBehaviour
     }
 
     currentFloor = 0;
-    timer = 0f; // Reset the timer at the start of the game.
+    timer = 0f;
 
     StartFloor();
   }
@@ -193,5 +236,32 @@ public class FloorManager : MonoBehaviour
   void Start()
   {
     StartGame();
+  }
+
+  // Public UI Functions
+  public void PauseGame()
+  {
+    Time.timeScale = 0f;
+    isTimerRunning = false;
+    pauseFrame.SetActive(true);
+  }
+
+  public void ContinueGame()
+  {
+    Time.timeScale = 1f;
+    isTimerRunning = true;
+    pauseFrame.SetActive(false);
+  }
+
+  public void RestartGame()
+  {
+    Time.timeScale = 1f;
+    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+  }
+
+  public void LeaveGame()
+  {
+    Time.timeScale = 1f;
+    SceneManager.LoadScene("MainMenu");
   }
 }
