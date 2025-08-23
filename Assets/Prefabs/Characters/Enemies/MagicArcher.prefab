@@ -762,7 +762,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackRange: 10
   attackDelay: 0.3
-  attackCooldown: 0.5
+  attackCooldown: 0.6
   projectileLifetime: 10
   projectilePrefab: {fileID: 6762144316835652383, guid: 7d92c43673cf6794aba39ee340e750bb, type: 3}
 --- !u!1 &8585442601235911853

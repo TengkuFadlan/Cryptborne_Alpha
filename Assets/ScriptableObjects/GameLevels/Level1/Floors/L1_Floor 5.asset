@@ -16,3 +16,5 @@ MonoBehaviour:
   waves:
   - {fileID: 11400000, guid: 39f7abd779262f44abe813d2da84a598, type: 2}
   - {fileID: 11400000, guid: f2b238ac70aa7c34ba07446e302500ac, type: 2}
+  floorTip: Reach Floor 50 to win.
+  floorImageTip: {fileID: 472646816, guid: 05e0567213a58c840a3ea79a4409bdfd, type: 3}
