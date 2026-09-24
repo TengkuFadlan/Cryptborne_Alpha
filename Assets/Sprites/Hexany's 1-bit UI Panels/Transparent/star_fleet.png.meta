@@ -209,7 +209,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      star_fleet_0: 9128485631023756759
+      star_fleet_1: -6625905127643053197
+      star_fleet_2: 9215207299017625931
+      star_fleet_3: 993945698617922363
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

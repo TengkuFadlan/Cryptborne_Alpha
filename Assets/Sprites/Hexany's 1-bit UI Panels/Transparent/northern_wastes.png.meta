@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      northern_wastes_0: -1868316573510505076
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

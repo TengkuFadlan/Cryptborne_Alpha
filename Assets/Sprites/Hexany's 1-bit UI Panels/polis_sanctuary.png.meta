@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      polis_sanctuary_0: -8563404010255452692
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

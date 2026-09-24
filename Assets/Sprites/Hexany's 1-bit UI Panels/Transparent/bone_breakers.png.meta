@@ -409,7 +409,19 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      bone_breakers_0: -6144485591831787301
+      bone_breakers_1: 7196096792638197809
+      bone_breakers_10: -3633658832557500498
+      bone_breakers_11: 3187517794639000067
+      bone_breakers_2: 6997223550547351941
+      bone_breakers_3: -1240370343382401738
+      bone_breakers_4: -1706407209360443927
+      bone_breakers_5: -6455030463100305971
+      bone_breakers_6: 558320659712209561
+      bone_breakers_7: 8208161059604502983
+      bone_breakers_8: -3770835643418410762
+      bone_breakers_9: 5975964164140151753
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

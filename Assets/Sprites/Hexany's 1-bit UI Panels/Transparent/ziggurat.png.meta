@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      ziggurat_0: 5706718237628159073
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

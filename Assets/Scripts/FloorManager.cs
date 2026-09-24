@@ -27,6 +27,7 @@ public class FloorManager : MonoBehaviour
   public LevelSO LevelData;
 
   List<Entity> activeEnemyEntities = new();
+  Dictionary<Entity, Action> enemyDeathHandlers = new();
   GameObject playerGameObject;
   GameObject currentMap;
   int currentFloor = 0;
@@ -95,7 +96,11 @@ public class FloorManager : MonoBehaviour
 
   void OnEnemyDeath(Entity enemy)
   {
-    enemy.OnDeath -= () => OnEnemyDeath(enemy);
+    if (enemyDeathHandlers.TryGetValue(enemy, out var deathHandler))
+    {
+      enemy.OnDeath -= deathHandler;
+      enemyDeathHandlers.Remove(enemy);
+    }
 
     if (activeEnemyEntities.Contains(enemy))
     {
@@ -197,8 +202,10 @@ public class FloorManager : MonoBehaviour
 
       if (newEnemy.TryGetComponent<Entity>(out var enemyEntity))
       {
+        Action deathHandler = () => OnEnemyDeath(enemyEntity);
         activeEnemyEntities.Add(enemyEntity);
-        enemyEntity.OnDeath += () => OnEnemyDeath(enemyEntity);
+        enemyDeathHandlers.Add(enemyEntity, deathHandler);
+        enemyEntity.OnDeath += deathHandler;
       }
     }
   }
@@ -222,8 +229,11 @@ public class FloorManager : MonoBehaviour
     Debug.Log("Starting Floor " + currentFloor);
     currentWave = 0;
 
-    if (LevelData.floors[currentFloor].floorTip != "")
+    if (!string.IsNullOrWhiteSpace(LevelData.floors[currentFloor].floorTip))
+    {
+      Debug.Log("Showing floor tip: " + LevelData.floors[currentFloor].floorTip);
       TipPauseGame(LevelData.floors[currentFloor]);
+    }
 
     Invoke("StartWave", 1f);
   }

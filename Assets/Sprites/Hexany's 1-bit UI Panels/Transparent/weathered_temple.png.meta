@@ -309,7 +309,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      weathered_temple_0: 856901814574873458
+      weathered_temple_1: 8829361054037502273
+      weathered_temple_2: 7064980346596661469
+      weathered_temple_3: 4934035329322245991
+      weathered_temple_4: 6570942419147493256
+      weathered_temple_5: 4577981352168945809
+      weathered_temple_6: -976864742026915825
+      weathered_temple_7: 5849070319957686782
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

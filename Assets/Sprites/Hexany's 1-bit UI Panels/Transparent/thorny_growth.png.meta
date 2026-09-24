@@ -209,7 +209,11 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      thorny_growth_0: -6299497357352314638
+      thorny_growth_1: -7158042008511244062
+      thorny_growth_2: -7105900111763560304
+      thorny_growth_3: -2900474260945666093
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
